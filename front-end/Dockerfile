@@ -1,11 +1,15 @@
 FROM node:16
 
-WORKDIR ./usr/src
+WORKDIR /app
 
 COPY . .
 
-EXPOSE 5000
+RUN npm i && npm run build
+RUN mkdir -p /var/www/html
+RUN  mv build/* /var/www/html
 
-RUN npm i && npm run build && npx prisma generate
 
-CMD ["npm", "start"]
+WORKDIR /
+
+
+RUN rm -rf /app
